@@ -49,7 +49,7 @@ export class SNSIntegration extends Construct {
       },
       requestTemplates: {
         // "application/json": `Action=SendMessage&MessageBody=$input.body`,
-        "application/json": `Action=Publish&TargetArn=Folks&Message=$input.body`,
+        "application/json": `Action=Publish&TargetArn=arn%3Aaws%3Asns%3Aus-east-2%3A211568621130%3AFolks&Message=$input.body`,
         // "application/json": "#set ($root=$input.path('$')) { \"stage\": \"$root.name\", \"user-id\": \"$root.key\" }",
 
       },
