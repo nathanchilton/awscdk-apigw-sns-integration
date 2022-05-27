@@ -1,37 +1,37 @@
 //Create an IAM Role for API Gateway to assume
 import { Stack, StackProps } from "aws-cdk-lib";
 import { Construct } from "constructs";
-import * as sqs from "aws-cdk-lib/aws-sqs";
+import * as sns from "aws-cdk-lib/aws-sns";
 import * as iam from "aws-cdk-lib/aws-iam";
 import * as apigw from "aws-cdk-lib/aws-apigateway";
-import { sqsResponseTemplate } from "../templates/sqs-response.template";
+import { snsResponseTemplate } from "../templates/sns-response.template";
 
 /**
  * These are the properties expected by the SQSIntegration Construct
  */
-export interface ISQSIntegrationProps {
-  messageQueue: sqs.Queue;
+export interface ISNSIntegrationProps {
+  snsTopic: sns.Topic;
   apiGatewayRole: iam.IRole;
 }
 
 /**
  * This Construct creates the integration options needed to attach to a REST API Method
  */
-export class SQSIntegration extends Construct {
+export class SNSIntegration extends Construct {
   integration: apigw.AwsIntegration; // this will be used by the parent stack to combine with other Constructs
 
-  constructor(scope: Construct, id: string, props: ISQSIntegrationProps) {
+  constructor(scope: Construct, id: string, props: ISNSIntegrationProps) {
     super(scope, id);
 
     /**
-     * Create an intergration response for SQS that transforms the output
+     * Create an integration response for SQS that transforms the output
      * this is the handling of the response from SQS prior to REST endpoint handling.
      * When the response calls for application/json, use VTL to transform the output
      */
     const integrationResponse: apigw.IntegrationResponse = {
       statusCode: "200",
       responseTemplates: {
-        "application/json": sqsResponseTemplate,
+        "application/json": snsResponseTemplate,
       },
     };
 
@@ -48,7 +48,10 @@ export class SQSIntegration extends Construct {
           "'application/x-www-form-urlencoded'",
       },
       requestTemplates: {
-        "application/json": `Action=SendMessage&MessageBody=$input.body`,
+        // "application/json": `Action=SendMessage&MessageBody=$input.body`,
+        "application/json": `Action=Publish&TargetArn=Folks&Message=$input.body`,
+        // "application/json": "#set ($root=$input.path('$')) { \"stage\": \"$root.name\", \"user-id\": \"$root.key\" }",
+
       },
       integrationResponses: [integrationResponse],
     };
@@ -59,8 +62,8 @@ export class SQSIntegration extends Construct {
      * that you would find on the Stack object.
      */
     this.integration = new apigw.AwsIntegration({
-      service: "sqs",
-      path: `${Stack.of(this).account}/${props.messageQueue.queueName}`,
+      service: "sns",
+      path: `${Stack.of(this).account}/${props.snsTopic.topicName}`,
       integrationHttpMethod: "POST",
       options: integrationOptions,
     });

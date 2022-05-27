@@ -2,11 +2,11 @@
 import { Stack, StackProps } from "aws-cdk-lib";
 import { Construct } from "constructs";
 import * as apigw from "aws-cdk-lib/aws-apigateway";
-import { GeoModel } from "./geo-model.construct";
+import { PersonModel } from "./person-model.construct";
 
 /**
  * These are the properties expected by the ApiMethodOptions Construct
- */ 
+ */
 export interface IApiMethodOptionsProps {
   restApi: apigw.RestApi;
 }
@@ -21,16 +21,16 @@ export class ApiMethodOptions extends Construct {
     super(scope, id);
 
     /**
-     * Create the GeoModel to attach to the Request
+     * Create the PersonModel to attach to the Request
      */
-    const geoModel = new GeoModel(this, "Geo Model Construct", {
+    const personModel = new PersonModel(this, "Person Model Construct", {
       restApi: props.restApi,
     });
 
     /**
      * Create a method response for API Gateway using the empty model, which will
      * return the response from the integration unmapped
-     */ 
+     */
     const methodResponse: apigw.MethodResponse = {
       statusCode: "200",
       responseModels: { "application/json": apigw.Model.EMPTY_MODEL },
@@ -48,10 +48,10 @@ export class ApiMethodOptions extends Construct {
         validateRequestBody: true,
       }),
       requestModels: {
-        "application/json": geoModel.model,
+        "application/json": personModel.model,
       },
     };
-      
+
     this.methodOptions = methodOptions;
   }
 }
