@@ -54,7 +54,10 @@ export class ApigwSnsCdkStack extends Stack {
     );
 
     //Create a Resource Method, that combines the sqs integration, message validation and transformation
-    restApi.root.addMethod(
+    const toTopic = restApi.root.addResource('to-topic');
+
+    // restApi.root.addMethod(
+    toTopic.addMethod(
       "POST",
       sqsIntegration.integration,
       apiMethodOptions.methodOptions
