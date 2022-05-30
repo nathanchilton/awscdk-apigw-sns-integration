@@ -32,12 +32,12 @@ export class PersonModel extends Construct {
 			modelName: 'personModel',
 			schema: {
 				type: apigw.JsonSchemaType.OBJECT,
-				// required: ['firstName', 'lastName',],
+				required: ['firstName', 'lastName'],
 				properties: {
-					// dob: {
-					// 	type: apigw.JsonSchemaType.STRING,
-					// 	format: "date",
-					// },
+					dob: {
+						type: apigw.JsonSchemaType.STRING,
+						format: "date",
+					},
 					firstName: {
 						type: apigw.JsonSchemaType.STRING,
 						maxLength: 50,
@@ -46,19 +46,19 @@ export class PersonModel extends Construct {
 						type: apigw.JsonSchemaType.STRING,
 						maxLength: 50,
 					},
-					// middleInitial: {
-					// 	type: apigw.JsonSchemaType.STRING,
-					// 	maxLength: 1,
-					// },
+					middleInitial: {
+						type: apigw.JsonSchemaType.STRING,
+						maxLength: 1,
+					},
 					// aliases: {
 					// 	type: apigw.JsonSchemaType.STRING,
 					// 	minimum: -180,
 					// 	maximum: 180,
 					// },
-					// phoneNumber: {
-					// 	type: apigw.JsonSchemaType.STRING,
-					// 	pattern: '^\(?([0-9]{3})\)?[-.●]?([0-9]{3})[-.●]?([0-9]{4})$',
-					// }
+					phoneNumber: {
+						type: apigw.JsonSchemaType.STRING,
+						pattern: '^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$',
+					},
 				},
 			},
 		});

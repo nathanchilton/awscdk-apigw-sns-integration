@@ -8,6 +8,7 @@ export const snsResponseTemplate: string = `
     #set($metadata = $sndMsgResp.ResponseMetadata)
     #set($sndMsgRes = $sndMsgResp.SendMessageResult)
     {
+        input = "$input",
         inputRoot = "$inputRoot",
         sndMsgResp = "$sndMsgResp",
         metadata = "$metadata",
