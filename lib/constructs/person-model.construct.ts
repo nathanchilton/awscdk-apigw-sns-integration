@@ -7,7 +7,7 @@ import * as apigw from "aws-cdk-lib/aws-apigateway";
  * These are the properties expected by the PersonModel Construct
  */
 export interface IPersonModelProps {
-    restApi: apigw.RestApi;
+  restApi: apigw.RestApi;
 }
 
 /**
@@ -25,43 +25,44 @@ export class PersonModel extends Construct {
      *
      * https://json-schema.org/
      */
-    const personModel = new apigw.Model(this, 'person-model-validator', {
-			restApi: props.restApi,
-			contentType: 'application/json',
-			description: 'Validates information about a person',
-			modelName: 'personModel',
-			schema: {
-				type: apigw.JsonSchemaType.OBJECT,
-				required: ['firstName', 'lastName'],
-				properties: {
-					dob: {
-						type: apigw.JsonSchemaType.STRING,
-						format: "date",
-					},
-					firstName: {
-						type: apigw.JsonSchemaType.STRING,
-						maxLength: 50,
-					},
-					lastName: {
-						type: apigw.JsonSchemaType.STRING,
-						maxLength: 50,
-					},
-					middleInitial: {
-						type: apigw.JsonSchemaType.STRING,
-						maxLength: 1,
-					},
-					// aliases: {
-					// 	type: apigw.JsonSchemaType.STRING,
-					// 	minimum: -180,
-					// 	maximum: 180,
-					// },
-					phoneNumber: {
-						type: apigw.JsonSchemaType.STRING,
-						pattern: '^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$',
-					},
-				},
-			},
-		});
+    const personModel = new apigw.Model(this, "person-model-validator", {
+      restApi: props.restApi,
+      contentType: "application/json",
+      description: "Validates information about a person",
+      modelName: "personModel",
+      schema: {
+        type: apigw.JsonSchemaType.OBJECT,
+        required: ["firstName", "lastName"],
+        properties: {
+          dob: {
+            type: apigw.JsonSchemaType.STRING,
+            format: "date",
+          },
+          firstName: {
+            type: apigw.JsonSchemaType.STRING,
+            maxLength: 50,
+          },
+          lastName: {
+            type: apigw.JsonSchemaType.STRING,
+            maxLength: 50,
+          },
+          middleInitial: {
+            type: apigw.JsonSchemaType.STRING,
+            maxLength: 1,
+          },
+          aliases: {
+            type: "array",
+            items: {
+              type: apigw.JsonSchemaType.STRING,
+            }
+          },
+          phoneNumber: {
+            type: apigw.JsonSchemaType.STRING,
+            pattern: "^[+]?[(]?[0-9]{3}[)]?[-s.]?[0-9]{3}[-s.]?[0-9]{4,6}$",
+          },
+        },
+      },
+    });
 
     this.model = personModel;
   }
