@@ -4,16 +4,12 @@
  */
 export const snsResponseTemplate: string = `
     #set($inputRoot = $input.path('$'))
-    #set($sndMsgResp = $inputRoot.SendMessageResponse)
-    #set($metadata = $sndMsgResp.ResponseMetadata)
-    #set($sndMsgRes = $sndMsgResp.SendMessageResult)
+    #set($publishResponse = $inputRoot.PublishResponse)
+    #set($publishResult = $publishResponse.PublishResult)
+    #set($metadata = $publishResponse.ResponseMetadata)
     {
-        "input" = "$input",
-        "inputRoot" = "$inputRoot",
-        "sndMsgResp" = "$sndMsgResp",
-        "metadata" = "$metadata",
-        "sndMsgRes" = "$sndMsgRes",
         "RequestId" : "$metadata.RequestId",
-        "MessageId" : "$sndMsgRes.MessageId"
+        "MessageId" : "$publishResult.MessageId",
+        "Note": "Nathan will be so pleased to get another email message!",
     }
 `;

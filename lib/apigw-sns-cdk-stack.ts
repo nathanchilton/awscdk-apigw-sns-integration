@@ -12,9 +12,9 @@ export class ApigwSnsCdkStack extends Stack {
     super(scope, id, props);
 
     //Create the SNS Topic
-    const snsTopic = new sns.Topic(this, "FolksTopic", {
-      displayName: "Folks",
-      topicName: "Folks"
+    const snsTopic = new sns.Topic(this, "PeopleTopic", {
+      displayName: "People",
+      topicName: "People"
     });
 
     //Create a role assumed by the APIGW Principal with Allow send message to the SQS Queue
