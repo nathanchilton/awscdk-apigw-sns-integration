@@ -51,9 +51,11 @@ export class PersonModel extends Construct {
             maxLength: 1,
           },
           aliases: {
-            type: "array",
+            type: apigw.JsonSchemaType.ARRAY,
+            maxLength: 3,
             items: {
               type: apigw.JsonSchemaType.STRING,
+              maxLength: 50,
             }
           },
           phoneNumber: {
