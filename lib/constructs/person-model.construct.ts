@@ -31,16 +31,19 @@ export class PersonModel extends Construct {
       description: "Validates information about a person",
       modelName: "personModel",
       schema: {
+        schema: apigw.JsonSchemaVersion.DRAFT7,
         type: apigw.JsonSchemaType.OBJECT,
-        required: ["firstName", "lastName"],
+        required: ["dob", "firstName", "lastName"],
         properties: {
-          dob: {
-            type: apigw.JsonSchemaType.STRING,
-            format: "date",
-          },
           firstName: {
             type: apigw.JsonSchemaType.STRING,
             maxLength: 50,
+          },
+          dob: {
+            type: apigw.JsonSchemaType.STRING,
+            // format: "date",
+            pattern: "^[0-9]{4}-[0-9]{2}-[0-9]{2}$",
+            // pattern: "^\\d{4}-\\d{2}-\\d{2}$",
           },
           lastName: {
             type: apigw.JsonSchemaType.STRING,
